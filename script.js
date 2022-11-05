@@ -17,3 +17,26 @@ button.addEventListener('click', () => {
 			colors[i].style.backgroundColor = randomColor();
 		}
 });
+
+// const localStorageRandomColor = () => {
+//   const colors = document.querySelectorAll('.color')
+//   const arrayRandomColor = [];
+//   for (let i = 0; i < colors.length; i += 1){
+//     arrayRandomColor.push(colors[i].style.backgroundColor)
+//   }
+//   localStorage.setItem('randomColors', JSON.stringify(arrayRandomColor))
+// }
+
+const pixelChart = () => {
+  const chart = document.getElementById('pixel-board');
+  for(let i = 0; i < 5; i += 1){
+    for(let i2 = 0; i2 < 5; i2 += 1){
+      let pixel = document.createElement('div');
+      pixel.className = 'pixel';
+      pixel.style.backgroundColor = 'white';
+      chart.appendChild(pixel);
+    }
+  }
+}
+pixelChart()
+
