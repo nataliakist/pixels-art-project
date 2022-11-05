@@ -1,19 +1,6 @@
-#first-color {
-    background-color: black;
-}
-
-#second-color {
-    background-color: blue;
-}
-
-#third-color {
-    background-color: green;
-}
-
-#fourth-color {
-    background-color: yellow;
-}
-
-.color {
-    border: 1px solid black;
+.color{
+	border: 1px solid black;
+	height: 100px;
+	width: 100px;
+	display: inline-block;
 }
