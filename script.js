@@ -7,6 +7,7 @@ const randomColor = () => {
 
 const colors = document.querySelectorAll('.color')
 colors[0].style.backgroundColor = 'black';
+colors[0].classList.add('selected');
 for(let i = 1; i < colors.length; i += 1){
   colors[i].style.backgroundColor = randomColor();
 }
@@ -39,4 +40,6 @@ const pixelChart = () => {
   }
 }
 pixelChart()
+
+
 
