@@ -7,7 +7,6 @@ const randomColor = () => {
 
 const colors = document.querySelectorAll('.color')
 colors[0].style.backgroundColor = 'black';
-colors[0].classList.add('selected');
 for(let i = 1; i < colors.length; i += 1){
   colors[i].style.backgroundColor = randomColor();
 }
@@ -65,5 +64,25 @@ const changeClass = (event) => {
 for(let i = 1; i < colors.length; i += 1){
   colors[i].addEventListener('click', changeClass);
 }
+
+const selectedElement = document.querySelector('.selected')
+const pixels = document.querySelectorAll('.pixel')
+// const coloringPixel = () => {
+//   for (let i = 0; i < pixels.length; i += 1){
+//     pixels[i].addEventListener('click', (event) => {
+//       event.target.style.backgroundColor = selectedElement.style.backgroundColor;
+//     })
+//   }
+// }
+// coloringPixel();
+
+const clearBoardButton = document.querySelector('#clear-board')
+clearBoardButton.addEventListener('click', () => {
+	for(let i = 1; i < pixels.length; i += 1){
+		pixels[i].style.backgroundColor = 'white';
+	}
+});
+
+
 
 
