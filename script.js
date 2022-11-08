@@ -12,6 +12,7 @@ for(let i = 1; i < colors.length; i += 1){
   colors[i].style.backgroundColor = randomColor();
 }
 
+
 const button = document.querySelector('#button-random-color')
 button.addEventListener('click', () => {
 	for(let i = 1; i < colors.length; i += 1){
@@ -19,14 +20,29 @@ button.addEventListener('click', () => {
 		}
 });
 
-// const localStorageRandomColor = () => {
-//   const colors = document.querySelectorAll('.color')
-//   const arrayRandomColor = [];
-//   for (let i = 0; i < colors.length; i += 1){
-//     arrayRandomColor.push(colors[i].style.backgroundColor)
+const localStorageSave = () => {
+  const colors = document.querySelectorAll('.color')
+  const arrayRandomColor = [];
+  for (let i = 0; i < colors.length; i += 1){
+    arrayRandomColor.push(colors[i].style.backgroundColor)
+  }
+  localStorage.setItem('randomColors', JSON.stringify(arrayRandomColor))
+}
+localStorageSave();
+
+// const recolorirQuadro = (salvaArray) => {
+//   for(let i = 1; i < colors.length; i += 1){
+//     colors[i].style.backgroundColor = salvaArray[i];
 //   }
-//   localStorage.setItem('randomColors', JSON.stringify(arrayRandomColor))
 // }
+
+// const localStorageGet = () => {
+//   const salvaArray = localStorage.getItem('randomColors');
+//   if (salvaArray !== null) {
+//     return recolorirQuadro(JSON.parse(salvaArray));
+//   }
+// }
+// window.onload = localStorageGet();
 
 const pixelChart = () => {
   const chart = document.getElementById('pixel-board');
@@ -41,5 +57,13 @@ const pixelChart = () => {
 }
 pixelChart()
 
+const changeClass = (event) => {
+  const selectedElement = document.querySelector('.selected');
+  selectedElement.classList.remove('selected');
+  event.target.classList.add('selected');
+}
+for(let i = 1; i < colors.length; i += 1){
+  colors[i].addEventListener('click', changeClass);
+}
 
 
