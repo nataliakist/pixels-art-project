@@ -6,42 +6,48 @@ const randomColor = () => {
 }
 
 const colors = document.querySelectorAll('.color')
-colors[0].style.backgroundColor = 'black';
-for(let i = 1; i < colors.length; i += 1){
-  colors[i].style.backgroundColor = randomColor();
-}
 
+const initialPalette = () => {
+  colors[0].style.backgroundColor = 'black';
+  for(let i = 1; i < colors.length; i += 1){
+    colors[i].style.backgroundColor = randomColor();
+    localStorageSave();
+  }
+}
 
 const button = document.querySelector('#button-random-color')
 button.addEventListener('click', () => {
-	for(let i = 1; i < colors.length; i += 1){
-			colors[i].style.backgroundColor = randomColor();
-		}
+  colors[0].style.backgroundColor = 'black';
+  for(let i = 1; i < colors.length; i += 1){
+    colors[i].style.backgroundColor = randomColor();
+    localStorageSave();
+  }
 });
 
 const localStorageSave = () => {
-  const colors = document.querySelectorAll('.color')
   const arrayRandomColor = [];
   for (let i = 0; i < colors.length; i += 1){
     arrayRandomColor.push(colors[i].style.backgroundColor)
   }
   localStorage.setItem('randomColors', JSON.stringify(arrayRandomColor))
 }
-localStorageSave();
 
-// const recolorirQuadro = (salvaArray) => {
-//   for(let i = 1; i < colors.length; i += 1){
-//     colors[i].style.backgroundColor = salvaArray[i];
-//   }
-// }
+const recolorirQuadro = (salvaArray) => {
+  colors[0].style.backgroundColor = 'black';
+  for(let i = 1; i < colors.length; i += 1){
+    colors[i].style.backgroundColor = salvaArray[i];
+  }
+}
 
-// const localStorageGet = () => {
-//   const salvaArray = localStorage.getItem('randomColors');
-//   if (salvaArray !== null) {
-//     return recolorirQuadro(JSON.parse(salvaArray));
-//   }
-// }
-// window.onload = localStorageGet();
+const localStorageGet = () => {
+  const salvaArray = JSON.parse(localStorage.getItem('randomColors'));
+  for (let index = 0; index < salvaArray.length; index++) {
+    if (salvaArray !== null) {
+      recolorirQuadro(salvaArray);
+  }
+  }
+}
+localStorageGet();
 
 const pixelChart = () => {
   const chart = document.getElementById('pixel-board');
@@ -67,19 +73,19 @@ for(let i = 1; i < colors.length; i += 1){
 
 const selectedElement = document.querySelector('.selected')
 const pixels = document.querySelectorAll('.pixel')
-// const coloringPixel = () => {
-//   for (let i = 0; i < pixels.length; i += 1){
-//     pixels[i].addEventListener('click', (event) => {
-//       event.target.style.backgroundColor = selectedElement.style.backgroundColor;
-//     })
-//   }
-// }
-// coloringPixel();
+const coloringPixel = () => {
+  for (let pixel of pixels){
+    pixel.addEventListener('click', (event) => {
+      event.target.style.backgroundColor = selectedElement.style.backgroundColor;
+    })
+  }
+}
+coloringPixel();
 
 const clearBoardButton = document.querySelector('#clear-board')
 clearBoardButton.addEventListener('click', () => {
-	for(let i = 1; i < pixels.length; i += 1){
-		pixels[i].style.backgroundColor = 'white';
+	for(let pixel of pixels){
+		pixel.style.backgroundColor = 'white';
 	}
 });
 
