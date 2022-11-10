@@ -6,6 +6,7 @@ const randomColor = () => {
 }
 
 const colors = document.querySelectorAll('.color')
+let selectedColor = 'black';
 
 const initialPalette = () => {
   colors[0].style.backgroundColor = 'black';
@@ -44,10 +45,10 @@ const localStorageGet = () => {
   for (let index = 0; index < salvaArray.length; index++) {
     if (salvaArray !== null) {
       recolorirQuadro(salvaArray);
-  }
+    }
+    initialPalette();
   }
 }
-localStorageGet();
 
 const pixelChart = () => {
   const chart = document.getElementById('pixel-board');
@@ -63,20 +64,28 @@ const pixelChart = () => {
 pixelChart()
 
 const pixels = document.querySelectorAll('.pixel')
-const changeClass = (event) => {
-  const selectedElement = document.querySelector('.selected');
-  selectedElement.classList.remove('selected');
-  event.target.classList.add('selected');
-  for (let pixel of pixels){
-    pixel.addEventListener('click', (event) => {
-      event.target.style.backgroundColor = selectedElement.style.backgroundColor;
+const chooseColor = () => {
+  for (let color of colors) {
+    color.addEventListener('click', (event) => {
+      selectedColor = color.style.backgroundColor
+      for (let index = 0; index < colors.length; index++) {
+        colors[index].classList.remove('selected');
+      }
+      event.target.classList.add('selected')
     })
   }
 }
+chooseColor();
 
-for(let i = 0; i < colors.length; i += 1){
-  colors[i].addEventListener('click', changeClass);
+const paintingPixels = () => {
+  for (let pixel of pixels){
+  pixel.addEventListener('click', (event) => {
+    event.target.style.backgroundColor = selectedColor;
+  })
+  }
+  localStorageSave();
 }
+paintingPixels();
 
 const clearBoardButton = document.querySelector('#clear-board')
 clearBoardButton.addEventListener('click', () => {
@@ -84,7 +93,11 @@ clearBoardButton.addEventListener('click', () => {
 		pixel.style.backgroundColor = 'white';
 	}
 });
-clearBoardButton();
+
+window.onload = () => {
+  localStorageSave;
+  localStorageGet();
+}
 
 
 
