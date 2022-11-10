@@ -62,25 +62,21 @@ const pixelChart = () => {
 }
 pixelChart()
 
+const pixels = document.querySelectorAll('.pixel')
 const changeClass = (event) => {
   const selectedElement = document.querySelector('.selected');
   selectedElement.classList.remove('selected');
   event.target.classList.add('selected');
-}
-for(let i = 1; i < colors.length; i += 1){
-  colors[i].addEventListener('click', changeClass);
-}
-
-const selectedElement = document.querySelector('.selected')
-const pixels = document.querySelectorAll('.pixel')
-const coloringPixel = () => {
   for (let pixel of pixels){
     pixel.addEventListener('click', (event) => {
       event.target.style.backgroundColor = selectedElement.style.backgroundColor;
     })
   }
 }
-coloringPixel();
+
+for(let i = 0; i < colors.length; i += 1){
+  colors[i].addEventListener('click', changeClass);
+}
 
 const clearBoardButton = document.querySelector('#clear-board')
 clearBoardButton.addEventListener('click', () => {
@@ -88,6 +84,7 @@ clearBoardButton.addEventListener('click', () => {
 		pixel.style.backgroundColor = 'white';
 	}
 });
+clearBoardButton();
 
 
 
