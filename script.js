@@ -8,11 +8,31 @@ const randomColor = () => {
 const colors = document.querySelectorAll('.color')
 const button = document.querySelector('#button-random-color')
 const pixels = document.querySelectorAll('.pixel')
+const board = document.getElementById('pixel-board');
 colors[0].style.backgroundColor = 'black';
 for(let i = 1; i<colors.length; i++){
   colors[i].style.backgroundColor = randomColor();
 }
 let selectedColor = 'rgb(0,0,0)';
+
+window.onload = function () {
+  const salvaTam = localStorage.getItem('boardSize');
+  if (salvaTam !== null) {
+    pixelBoard(salvaTam);
+  } else {
+    pixelBoard(5);
+  }
+ 
+  const salvaArray = JSON.parse(localStorage.getItem('colorPalette'));
+  if (salvaArray !== null){
+    localStorageGet();
+  }
+  
+  const salvaArrayPixel = JSON.parse(localStorage.getItem('pixelBoard'));
+  if (salvaArrayPixel !== null){
+    localStorageGetDraw();
+  }
+}
 
 const initialPalette = () => {
   colors[0].style.backgroundColor = 'black';
@@ -32,26 +52,12 @@ const localStorageSave = () => {
   localStorage.setItem('colorPalette', JSON.stringify(arrayRandomColor))
 }
 
-
 const localStorageGet = () => {
   const salvaArray = JSON.parse(localStorage.getItem('colorPalette'));
   for (let index = 0; index < colors.length; index++) {
     colors[index].style.backgroundColor = salvaArray[index];
   }
 }
-
-const pixelBoard = () => {
-  const board = document.getElementById('pixel-board');
-  for(let i = 0; i < 5; i += 1){
-    for(let i2 = 0; i2 < 5; i2 += 1){
-      let pixel = document.createElement('div');
-      pixel.className = 'pixel';
-      pixel.style.backgroundColor = 'white';
-      board.appendChild(pixel);
-    }
-  }
-}
-pixelBoard()
 
 const chooseColor = () => {
   const colors = document.querySelectorAll('.color')
@@ -76,7 +82,6 @@ const paintingPixels = () => {
   })
   }
 }
-paintingPixels();
 
 const clearBoardButton = document.querySelector('#clear-board')
 clearBoardButton.addEventListener('click', () => {
@@ -84,6 +89,43 @@ clearBoardButton.addEventListener('click', () => {
 	for(let pixel of pixels){
 		pixel.style.backgroundColor = 'white';
 	}
+  localStorageSaveDraw();
+});
+
+const pixelBoard = (tamQuadro) => {
+  const board = document.getElementById('pixel-board');
+  board.style.gridTemplateColumns = `repeat(${tamQuadro}, 0fr)`;
+  for(let i = 0; i < tamQuadro; i += 1){
+    for(let i2 = 0; i2 < tamQuadro; i2 += 1){
+      let pixel = document.createElement('div');
+      pixel.className = 'pixel';
+      pixel.style.backgroundColor = 'white';
+      board.appendChild(pixel);
+    }
+    localStorage.setItem('boardSize', tamQuadro)
+    }
+    paintingPixels();
+  }
+
+const inputValue = (valorInput) => {
+  if (valorInput < 5) {
+    valorInput = 5
+  } else if (valorInput > 50){
+    valorInput = 50
+  }
+  pixelBoard(valorInput)
+}
+
+const boardGenerator = document.querySelector('#generate-board')
+boardGenerator.addEventListener('click', () => {
+  const input = document.querySelector('#board-size');
+  const boardSize = input.value
+  if(boardSize === ''){
+    alert('Board inválido!');
+  } else {
+    board.innerHTML = '';
+    inputValue(boardSize);
+  }
 });
 
 const localStorageSaveDraw = () => {
@@ -102,18 +144,4 @@ const localStorageGetDraw = () => {
     pixels[index].style.backgroundColor = salvaArrayPixel[index];
   }
 }
-
-window.onload = function () {
-  const salvaArray = JSON.parse(localStorage.getItem('colorPalette'));
-  if (salvaArray !== null){
-    localStorageGet();
-  }
-  
-  const salvaArrayPixel = JSON.parse(localStorage.getItem('pixelBoard'));
-  if (salvaArrayPixel !== null){
-    localStorageGetDraw();
-  }
-}
-
-
 
