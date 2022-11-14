@@ -14,7 +14,6 @@ for(let i = 1; i<colors.length; i++){
 }
 let selectedColor = 'rgb(0,0,0)';
 
-
 const initialPalette = () => {
   colors[0].style.backgroundColor = 'black';
   for(let i = 1; i < colors.length; i += 1){
@@ -33,13 +32,6 @@ const localStorageSave = () => {
   localStorage.setItem('colorPalette', JSON.stringify(arrayRandomColor))
 }
 
-const colorirQuadro = (salvaArray) => {
-  colors[0].style.backgroundColor = 'black';
-  for(let i = 1; i < colors.length; i += 1){
-    colors[i].style.backgroundColor = salvaArray[i];
-  }
-  localStorageSave();
-}
 
 const localStorageGet = () => {
   const salvaArray = JSON.parse(localStorage.getItem('colorPalette'));
@@ -80,6 +72,7 @@ const paintingPixels = () => {
   for (let pixel of pixels){
   pixel.addEventListener('click', (event) => {
     event.target.style.backgroundColor = selectedColor;
+    localStorageSaveDraw();
   })
   }
 }
@@ -93,10 +86,32 @@ clearBoardButton.addEventListener('click', () => {
 	}
 });
 
+const localStorageSaveDraw = () => {
+  const pixels = document.querySelectorAll('.pixel')
+  const arrayPixelColor = [];
+  for (let i = 0; i < pixels.length; i += 1){
+    arrayPixelColor.push(pixels[i].style.backgroundColor);
+  }
+  localStorage.setItem('pixelBoard', JSON.stringify(arrayPixelColor))
+}
+
+const localStorageGetDraw = () => {
+  const pixels = document.querySelectorAll('.pixel')
+  const salvaArrayPixel = JSON.parse(localStorage.getItem('pixelBoard'));
+  for (let index = 0; index < pixels.length; index++) {
+    pixels[index].style.backgroundColor = salvaArrayPixel[index];
+  }
+}
+
 window.onload = function () {
   const salvaArray = JSON.parse(localStorage.getItem('colorPalette'));
   if (salvaArray !== null){
     localStorageGet();
+  }
+  
+  const salvaArrayPixel = JSON.parse(localStorage.getItem('pixelBoard'));
+  if (salvaArrayPixel !== null){
+    localStorageGetDraw();
   }
 }
 
